@@ -27,13 +27,15 @@ module.exports = function(app, express, db){
     apiRouter.get('/products', function(req, res, next){
         var product = require('./productModel')(db, req);
         product.getProducts(function(products){
-            console.log('products',products);
             res.json({products: products.docs, pages: products.totalPages});
         })
     })
 
     apiRouter.post('/search', function(req, res, next){
         console.log('body', req.body)
+        var page = parseInt(req.query.offset);
+         var size = parseInt(req.query.limit);
+         var skip = page > 0 ? ((page - 1) * size) : 0
         db.collection('products').find({
             "$text": {
                 "$search": req.body.query
@@ -53,8 +55,9 @@ module.exports = function(app, express, db){
                         $meta: "textScore"
                     },
                 }
-            }).limit(20).toArray(function(err, items) {
-                if(err) return res.json({status: false, message: "Error searching for products"})
+                
+            }).skip(req.body.offset).limit(req.body.limit).toArray(function(err, items) {
+                if(err) return res.json({status: false, message: "Error searching for products"});
                 res.send({status: true, searchedProducts: items});
         })
     })

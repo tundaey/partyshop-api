@@ -9,7 +9,6 @@ module.exports = function(db, req){
          var skip = page > 0 ? ((page - 1) * size) : 0
         collection.find({}, {}, {skip: skip, limit: size}).toArray(function(err, docs){
             collection.count({}, function(err, totalPages){
-                console.log('pages', totalPages);
                 var returnObject = {docs: docs, totalPages: totalPages}  
                 callback(returnObject); 
             });  
