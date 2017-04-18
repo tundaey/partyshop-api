@@ -10,9 +10,7 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
-//var url = 'mongodb://web:uRs0ThQ7i5uf@35.158.68.96:27017/teinvit_db';
-var url='mongodb://web:uRs0ThQ7i5uf@cluster0-shard-00-00-intpm.mongodb.net:27017,cluster0-shard-00-01-intpm.mongodb.net:27017,cluster0-shard-00-02-intpm.mongodb.net:27017/teinvit_db?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin';
-
+var url = 'mongodb://web:uRs0ThQ7i5uf@35.158.68.96:27017/teinvit_db';
 app.use(function(req, res, next) {
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, OPTIONS');
