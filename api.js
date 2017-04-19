@@ -57,7 +57,8 @@ module.exports = function(app, express, db){
                 }
                 
             }).skip(req.body.offset).limit(req.body.limit).toArray(function(err, items) {
-                if(err) return res.json({status: false, message: "Error searching for products"});
+                if(err) 
+                    return res.json({status: false, message: "Error searching for products: "+err});
                 res.send({status: true, searchedProducts: items});
         })
     })
