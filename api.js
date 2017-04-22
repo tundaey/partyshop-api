@@ -46,6 +46,7 @@ module.exports = function(app, express, db){
             image_original:1,
             affiliate_link: 1,
             price: 1,
+            price_vat: 1,
             _id: 1,
             textScore: {
                 $meta: "textScore"}
