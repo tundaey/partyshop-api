@@ -2,6 +2,9 @@
   "name": "party-shopper-api",
   "version": "1.0.0",
   "description": "An api for the Party Shopper Website",
+  "scripts": {
+    "start":"nodemon server.js"
+  },
   "dependencies": {
     "body-parser": "^1.17.1",
     "express": "^4.15.2",

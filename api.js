@@ -94,6 +94,54 @@ module.exports = function(app, express, db){
     })
 
 
+    apiRouter.post('/profile', function(req, res, next){
+        console.log('profile', req.body)
+        //return res.send('done')
+        db.collection('users').findOneAndUpdate(
+            {id:req.body.profile.id}, 
+            {$set: {children: req.body.profile.children, name: req.body.profile.name, email: req.body.profile.email}}, 
+            {returnOriginal: false, upsert: true}, 
+            function(err, user){
+                console.log('err', err);
+                console.log('user', user);
+                return res.json(user.value)
+        })
+    })
+
+    apiRouter.get('/profile/:id', function(req, res, next){
+        db.collection('users').findOne({id: req.params.id}, function(err, user){
+            if(err) if(err) return res.json({status: false})
+            return res.json(user)
+        })
+    })
+
+    apiRouter.post('/user', function(req, res, next){
+        db.collection('users').findOne({id: req.body.user.id}, function(err, user){
+            console.log('err', err);
+            console.log('user', user);
+            if(err) return res.json({status: false})
+ 
+            if(!user){
+                var newuser = {
+                    email: req.body.user.email,
+                    children: [{name: '', dob: ''}],
+                    id: req.body.user.id,
+                    name: req.body.user.name,
+                    gender: req.body.user.gender,
+                    picture: req.body.user.picture.data.url
+                }
+                db.collection('users').insertOne(newuser, function(err,result){
+                    console.log('err', err);
+                    if(err) return res.json({status: false})
+                    
+                    return res.json({status: true})
+                })
+            }else{
+                return res.json({status: true, id: req.body.user.id})
+            }
+        })
+    })
+
 
 
     apiRouter.get('/products/:id', function(req, res, next){
